@@ -1,18 +1,11 @@
+import { loadScript } from 'gm-util';
+
 const config = {
     'xlsx': {
         depUrl: '//js.guanmai.cn/build/libs/node_modules/xlsx/dist/xlsx.full.min.js',
         isReady: false
     }
 };
-
-function loadScript (url, cb) {
-    const elem = window.document.createElement('script');
-    elem.type = 'text/javascript';
-    elem.charset = 'utf-8';
-    elem.addEventListener('load', cb, false);
-    elem.src = url;
-    window.document.body.appendChild(elem);
-}
 
 const asyncLoadJS = function(conf, callback){
     const target = config[conf];
