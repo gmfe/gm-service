@@ -21,10 +21,12 @@
     "babel-preset-react": "^6.24.1",
     "husky": "^0.14.3",
     "lodash": "^4.17.4",
-    "gm-util": "^5.4.24"
+    "gm-util": "^5.4.27",
+    "big.js": "^5.0.3"
   },
   "peerDependencies": {
     "lodash": "^4.17.4",
-    "gm-util": "^5.4.24"
+    "gm-util": "^5.4.27",
+    "big.js": "^5.0.3"
   }
 }
