@@ -1,7 +1,11 @@
+import {asyncLoadJS} from '../async_load_js';
+
 function requireGmXlsx(callback) {
-    require.ensure([], function(require) {
-        const res = require('gm-xlsx');
-        callback(res);
+    asyncLoadJS('xlsx', () => {
+        require.ensure([], function(require) {
+            const res = require('gm-xlsx');
+            callback(res);
+        });
     });
 }
 
