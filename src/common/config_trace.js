@@ -72,7 +72,7 @@ function configTrace(platform, options) {
             }
 
             if (__DEBUG__) { // eslint-disable-line
-                console.log(`graphql/request/${platform}`, data, arr.join(','));
+                // console.log(`graphql/request/${platform}`, data, arr.join(','));
             } else if (noTest) {
                 new window.Image().src = `//trace.guanmai.cn/graphql/request/${platform}?query={createRequest(${window.encodeURIComponent(arr.join(','))}){url}}`;
             }
