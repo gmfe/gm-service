@@ -4,6 +4,10 @@ const config = {
     'xlsx': {
         depUrl: '//js.guanmai.cn/build/libs/node_modules/xlsx/dist/xlsx.full.min.js',
         isReady: false
+    },
+    'echarts': {
+        depUrl: '//js.guanmai.cn/build/libs/echarts/4.0.4/dist/echarts.min.js',
+        isReady: false
     }
 };
 
