@@ -1,6 +1,6 @@
 import {asyncLoadJS} from '../async_load_js';
 
-function requireEcharts(callback) {
+function requireBaiduApi(callback) {
     asyncLoadJS('baidumapApi', () => {
         require.ensure([], function (require) {
             const res = require('baidumapApi');
@@ -9,5 +9,5 @@ function requireEcharts(callback) {
     });
 }
 
-export default requireEcharts;
+export default requireBaiduApi;
 

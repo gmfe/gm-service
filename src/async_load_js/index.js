@@ -16,6 +16,26 @@ const config = {
     'baidumapLushu': {
         depUrl: '//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
         isReady: false
+    },
+    'pdfmake': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/pdfmake.min.js?v=0.2.16',
+        isReady: false
+    },
+    'pdfmakeRegular0': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-0.js?v=0.2.16',
+        isReady: false
+    },
+    'pdfmakeRegular1': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-1.js?v=0.2.16',
+        isReady: false
+    },
+    'pdfmakeBold0': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-0.js?v=0.2.16',
+        isReady: false
+    },
+    'pdfmakeBold1': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-1.js?v=0.2.16',
+        isReady: false
     }
 };
 
