@@ -23,6 +23,7 @@
     "gm-util": "^5.4.27",
     "husky": "^0.14.3",
     "lodash": "^4.17.4",
+    "moment": "^2.21.0",
     "query-string": "^5.1.0"
   },
   "peerDependencies": {
