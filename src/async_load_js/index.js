@@ -8,6 +8,14 @@ const config = {
     'echarts': {
         depUrl: '//js.guanmai.cn/build/libs/echarts/4.0.4/dist/echarts.min.js',
         isReady: false
+    },
+    'baidumapApi': {
+        depUrl: '//api.map.baidu.com/api?v=2.0&ak=uRIgQnOKFQ77LLvuI9WzNgri',
+        isReady: false
+    },
+    'baidumapLushu': {
+        depUrl: '<script type="text/javascript" src="//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
+        isReady: false
     }
 };
 
