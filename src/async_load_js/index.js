@@ -14,7 +14,7 @@ const config = {
         isReady: false
     },
     'baidumapLushu': {
-        depUrl: '<script type="text/javascript" src="//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
+        depUrl: '//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
         isReady: false
     }
 };
