@@ -1,9 +1,9 @@
-import {asyncLoadJSArray} from '../async_load_js';
+import {asyncLoadJS} from '../async_load_js';
 
 const array = ['gm-pdfmake', 'gm-pdfmake-font-bold-0', 'gm-pdfmake-font-bold-1', 'gm-pdfmake-font-regular-0', 'gm-pdfmake-font-regular-1'];
 
 function requirePdfMake(callback) {
-    asyncLoadJSArray(array).then(() => {
+    asyncLoadJS(array).then(() => {
         require.ensure([], function (require) {
             const pdfMake = require('gm-pdfmake');
             const bold0 = require('gm-pdfmake-font-bold-0');
