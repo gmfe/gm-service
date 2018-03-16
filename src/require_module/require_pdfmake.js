@@ -14,6 +14,12 @@ function requirePdfMake(callback) {
                 "regular.ttf": regular0 + regular1,
                 "bold.ttf": bold0 + bold1
             };  
+            pdfMake.fonts = {
+                MicrosoftYaHei: {
+                    normal: 'regular.ttf',
+                    bold: 'bold.ttf'
+                }
+            };
             callback(pdfMake);   
         });
     }); 
