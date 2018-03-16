@@ -9,64 +9,74 @@ const config = {
         depUrl: '//js.guanmai.cn/build/libs/echarts/4.0.4/dist/echarts.min.js',
         isReady: false
     },
-    'baidumapApi': {
-        depUrl: '//api.map.baidu.com/api?v=2.0&ak=uRIgQnOKFQ77LLvuI9WzNgri',
+    'gm-pdfmake': {
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/pdfmake.min.js',
         isReady: false
     },
-    'baidumapLushu': {
-        depUrl: '//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
+    'gm-pdfmake-font-bold-0': {
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/splits/bold_0.js',
         isReady: false
     },
-    'pdfmake': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/pdfmake.min.js?v=0.2.16',
+    'gm-pdfmake-font-bold-1': {
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/splits/bold_1.js',
         isReady: false
     },
-    'pdfmakeRegular0': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-0.js?v=0.2.16',
+    
+    'gm-pdfmake-font-regular-0': {
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/splits/regular_0.js',
         isReady: false
     },
-    'pdfmakeRegular1': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-1.js?v=0.2.16',
+    'gm-pdfmake-font-regular-1': {
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/splits/regular_1.js',
         isReady: false
     },
-    'pdfmakeBold0': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-0.js?v=0.2.16',
-        isReady: false
-    },
-    'pdfmakeBold1': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-1.js?v=0.2.16',
-        isReady: false
-    }
+
 };
 
 const asyncLoadJS = function(conf, callback){
-    const target = config[conf];
-
-    if (!target) {
-        console.error('模块不存在');
-        return;
-    }
-
-    if (target.isReady) {
-        // 已经加载过
-        setTimeout(() => {
-            callback();
-        }, 0);
-        return;
-    }
-
-    if (!target.depUrl) {
-        // 没有外部依赖
-        setTimeout(() => {
-            callback();
-        }, 0);
+    if (Object.prototype.toString.call(conf) === "[object Array]") {
+        return Promise.all(
+            conf.map(item => {
+                return new Promise(resolve => {
+                    loadFunc(item, resolve);
+                }); 
+            })
+        );
     } else {
-        loadScript(target.depUrl, () => {
-            target.isReady = true;
-            callback();
-        });
+        loadFunc(conf, callback);
     }
+
+    function loadFunc (url, callback) {
+        const target = config[url];
+
+        if (!target) {
+            console.error('模块不存在');
+            return;
+        }
+
+        if (target.isReady) {
+            // 已经加载过
+            setTimeout(() => {
+                callback();
+            }, 0);
+            return;
+        }
+
+        if (!target.depUrl) {
+            // 没有外部依赖
+            setTimeout(() => {
+                callback();
+            }, 0);
+        } else {
+            loadScript(target.depUrl, () => {
+                target.isReady = true;
+                callback();
+            });
+        }
+    }
+
 };
+
 
 export {
     asyncLoadJS
