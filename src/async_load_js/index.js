@@ -17,26 +17,27 @@ const config = {
         depUrl: '//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
         isReady: false
     },
-    'pdfmake': {
+    'gm-pdfmake': {
         depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/pdfmake.min.js?v=0.2.16',
         isReady: false
     },
-    'pdfmakeRegular0': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-0.js?v=0.2.16',
-        isReady: false
-    },
-    'pdfmakeRegular1': {
-        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-1.js?v=0.2.16',
-        isReady: false
-    },
-    'pdfmakeBold0': {
+    'gm-pdfmake-font-bold-0': {
         depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-0.js?v=0.2.16',
         isReady: false
     },
-    'pdfmakeBold1': {
+    'gm-pdfmake-font-bold-1': {
         depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/bold-1.js?v=0.2.16',
         isReady: false
-    }
+    },
+    'gm-pdfmake-font-regular-0': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-0.js?v=0.2.16',
+        isReady: false
+    },
+    'gm-pdfmake-font-regular-1': {
+        depUrl: '//js.guanmai.cn/build/libs/node_modules/gm-pdfmake/build/splits/regular-1.js?v=0.2.16',
+        isReady: false
+    },
+
 };
 
 const asyncLoadJS = function(conf, callback){
@@ -68,6 +69,18 @@ const asyncLoadJS = function(conf, callback){
     }
 };
 
+// 引入多个
+const asyncLoadJSArray =  function(array) {
+    return Promise.all(
+        array.map(item => {
+            return new Promise(resolve => {
+                asyncLoadJS(item, resolve);
+            }); 
+        })
+    );
+};
+
 export {
-    asyncLoadJS
+    asyncLoadJS,
+    asyncLoadJSArray
 };
