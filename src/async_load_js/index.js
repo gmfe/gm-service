@@ -9,14 +9,6 @@ const config = {
         depUrl: '//js.guanmai.cn/build/libs/echarts/4.0.4/dist/echarts.min.js',
         isReady: false
     },
-    'baidumapApi': {
-        depUrl: '//api.map.baidu.com/api?v=2.0&ak=uRIgQnOKFQ77LLvuI9WzNgri',
-        isReady: false
-    },
-    'baidumapLushu': {
-        depUrl: '//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js',
-        isReady: false
-    },
     'gm-pdfmake': {
         depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.0/build/pdfmake.min.js',
         isReady: false
@@ -42,7 +34,7 @@ const config = {
 };
 
 const asyncLoadJS = function(conf, callback){
-    if (conf instanceof Array) {
+    if (Object.prototype.toString.call(conf) === "[object Array]") {
         return Promise.all(
             conf.map(item => {
                 return new Promise(resolve => {
@@ -82,8 +74,6 @@ const asyncLoadJS = function(conf, callback){
             });
         }
     }
-    
-    
 
 };
 
