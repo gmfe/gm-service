@@ -10,24 +10,24 @@ const config = {
         isReady: false
     },
     'gm-pdfmake': {
-        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.4/build/pdfmake.min.js',
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.5/build/pdfmake.min.js',
         isReady: false
     },
     'gm-pdfmake-font-bold-0': {
-        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.4/build/splits/bold_0.js',
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.5/build/splits/bold_0.js',
         isReady: false
     },
     'gm-pdfmake-font-bold-1': {
-        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.4/build/splits/bold_1.js',
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.5/build/splits/bold_1.js',
         isReady: false
     },
     
     'gm-pdfmake-font-regular-0': {
-        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.4/build/splits/regular_0.js',
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.5/build/splits/regular_0.js',
         isReady: false
     },
     'gm-pdfmake-font-regular-1': {
-        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.4/build/splits/regular_1.js',
+        depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.5/build/splits/regular_1.js',
         isReady: false
     }
 };
