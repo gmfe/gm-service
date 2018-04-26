@@ -11,7 +11,8 @@ function configTrace(platform, options) {
             origin: window.location.href,
             branch: window.____fe_branch,
             commit: window.____git_commit,
-            username: window.g_user && window.g_user.name,
+            name: window.g_user && window.g_user.name,
+            username: window.g_user && window.g_user.username,
             group: window.g_partner_id === undefined ? window.g_group_id : window.g_partner_id,
             cms: window.g_cms_config && window.g_cms_config.key
         }
