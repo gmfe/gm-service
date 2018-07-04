@@ -1,25 +1,25 @@
-import {md5, UUID, RequestInterceptor} from 'gm-util';
+import {md5, UUID, RequestInterceptor} from 'gm-util'
 
-const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID';
-const {localStorage} = window;
+const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
+const {localStorage} = window
 
-let clientId = localStorage.getItem(CLIENTIDKEY) || '';
+let clientId = localStorage.getItem(CLIENTIDKEY) || ''
 if (!clientId) {
-    clientId = md5(UUID.generate());
-    localStorage.setItem(CLIENTIDKEY, clientId);
+  clientId = md5(UUID.generate())
+  localStorage.setItem(CLIENTIDKEY, clientId)
 }
 
 const configHeaders = (name, version) => {
-    RequestInterceptor.add({
-        request(config) {
-            config.options.headers = config.options.headers || {};
+  RequestInterceptor.add({
+    request (config) {
+      config.options.headers = config.options.headers || {}
 
-            config.options.headers['X-Guanmai-Client'] = `${name}/${version} ${clientId}`;
-            config.options.headers['X-Guanmai-Request-Id'] = md5(UUID.generate());
+      config.options.headers['X-Guanmai-Client'] = `${name}/${version} ${clientId}`
+      config.options.headers['X-Guanmai-Request-Id'] = md5(UUID.generate())
 
-            return config;
-        }
-    });
-};
+      return config
+    }
+  })
+}
 
-export default configHeaders;
+export default configHeaders
