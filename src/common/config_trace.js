@@ -5,13 +5,16 @@ import { RequestInterceptor } from 'gm-util'
 
 // 请求统计需要
 function configTrace (platform, options) {
+  let groupId = (window.g_group_id !== undefined && window.g_group_id) || (window.g_partner_id !== undefined && window.g_partner_id)
+
   options = Object.assign({}, {
     extension: {
       origin: window.location.href,
       branch: window.____fe_branch,
       commit: window.____git_commit,
-      name: (window.g_user && window.g_user.name) || (window.g_user && window.g_user.username),
-      group: window.g_partner_id === undefined ? window.g_group_id : window.g_partner_id,
+      group_id: groupId,
+      name: (window.g_user && (window.g_user.name || window.g_user.username)) || null,
+      station_id: window.g_user && window.g_user.station_id,
       cms: window.g_cms_config && window.g_cms_config.key
     }
   }, options)
@@ -80,7 +83,14 @@ function configTrace (platform, options) {
       if (__DEBUG__) { // eslint-disable-line
         // nothing
       } else if (noTest) {
-        new window.Image().src = `//trace.guanmai.cn/api/logs/request/${platform}?data=${encodeURIComponent(JSON.stringify(data))}`
+        window.fetch(`//trace.guanmai.cn/api/logs/request/${platform}`, {
+          method: 'post',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors'
+        })
       }
     }, 10)
   }
