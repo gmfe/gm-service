@@ -33,11 +33,13 @@
     "husky": "^0.14.3",
     "lodash": "^4.17.4",
     "moment": "^2.21.0",
-    "query-string": "^5.1.0"
+    "query-string": "^5.1.0",
+    "react-gm": "^7.7.19"
   },
   "peerDependencies": {
     "lodash": "^4.17.4",
     "gm-util": "^5.4.27",
-    "big.js": "^5.0.3"
+    "big.js": "^5.0.3",
+    "react-gm": "^7.7.19"
   }
 }
