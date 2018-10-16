@@ -9,7 +9,8 @@ function configTrace (platform, options) {
 
   options = Object.assign({}, {
     extension: {
-      origin: window.location.href,
+      // 应在 上报 的时候才获取
+      // origin: window.location.href,
       branch: window.____fe_branch,
       commit: window.____git_commit,
       group_id: groupId,
@@ -76,10 +77,11 @@ function configTrace (platform, options) {
   const noTest = window.location.host.indexOf('dev.guanmai.cn') === -1 && window.location.host.indexOf('devhost.guanmai.cn') === -1
 
   function feed (data) {
+    data.extension = Object.assign({
+      origin: window.location.href
+    }, data.extension, options.extension)
     // 异步，不阻塞
     setTimeout(() => {
-      data.extension = Object.assign(data.extension, options.extension)
-
       if (__DEBUG__) { // eslint-disable-line
         // nothing
       } else if (noTest) {
