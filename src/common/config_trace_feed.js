@@ -1,5 +1,6 @@
 // 要求 __DEBUG__ 存在
 // dev devhost
+const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
 const noTest = window.location.host.indexOf('dev.guanmai.cn') === -1 && window.location.host.indexOf('devhost.guanmai.cn') === -1
 
 const groupId = (window.g_group_id !== undefined && window.g_group_id) || (window.g_partner_id !== undefined && window.g_partner_id)
@@ -22,8 +23,11 @@ function configTraceFeed (data, platform, options) {
   if (options) { // options通过参数的形式传进来，为非RequestInterceptor方式的调用
     data = Object.assign({}, data, {extension}, options.extension)
   } else { // 通过RequestInterceptor方式的调用
-    data.extension = extension
+    // 排查丢失cookie bug， bshop的每个请求都带上cookie和clientId
+    if (platform === 'bshop') data.extension = Object.assign({}, extension, {clientId: window.localStorage && window.localStorage.getItem(CLIENTIDKEY), cookie: window.document.cookie})
+    else data.extension = extension
   }
+
   // 异步，不阻塞
   setTimeout(() => {
     if (__DEBUG__) { // eslint-disable-line
