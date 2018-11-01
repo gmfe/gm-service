@@ -44,6 +44,7 @@ function configTrace (platform, options) {
 
   function report (result, config, isSuccess) {
     const uuid = config.options.headers['X-Guanmai-Request-Id']
+
     feed({
       url: config.url,
       req: {
@@ -61,7 +62,8 @@ function configTrace (platform, options) {
       }
     }, `//trace.guanmai.cn/api/logs/request/${platform}`)
     feed({
-      time: Date.now(),
+      url: config.url,
+      requestId: uuid,
       clientId: window.localStorage && window.localStorage.getItem(CLIENTIDKEY),
       cookie: window.document.cookie,
       userAgent: window.navigator.userAgent
