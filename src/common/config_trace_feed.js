@@ -16,6 +16,7 @@ const _extension = {
 }
 
 function configTraceFeed (data, platform, options) {
+  console.warn('废弃废弃废弃，直接调configTrace就可以了')
   const extension = Object.assign({
     origin: window.location.href
   }, data.extension, _extension)
