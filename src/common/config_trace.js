@@ -93,7 +93,7 @@ function configTrace (platform, options) {
       if (__DEBUG__) { // eslint-disable-line
         // nothing
       } else if (noTest) {
-        window.fetch(`//trace.guanmai.cn/api/logs/request/${platform}`, {
+        window.fetch(url, {
           method: 'post',
           body: JSON.stringify(data),
           headers: {
