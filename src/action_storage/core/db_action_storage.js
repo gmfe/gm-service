@@ -73,8 +73,7 @@ class DBActionStorage {
     this.addStorage({name, namespace})
     this.defaultName = name
   }
-  addHelper (helper) {
-    let name = helper.name
+  addHelper (name, helper) {
     assert(name !== '', 'helper name 不能为空!')
     this.helpers[name] = helper
   }
