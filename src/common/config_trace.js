@@ -4,6 +4,7 @@ import { RequestInterceptor } from 'gm-util'
 // 要求 __DEBUG__ 存在
 
 const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
+const enterPageTime = new Date().toString()
 
 // 请求统计需要
 function configTrace (platform, options) {
@@ -18,7 +19,8 @@ function configTrace (platform, options) {
       group_id: groupId,
       name: (window.g_user && (window.g_user.name || window.g_user.username)) || null,
       station_id: window.g_user && window.g_user.station_id,
-      cms: window.g_cms_config && window.g_cms_config.key
+      cms: window.g_cms_config && window.g_cms_config.key,
+      enterPageTime
     }
   }, options)
 
