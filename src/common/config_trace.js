@@ -6,23 +6,23 @@ import { RequestInterceptor } from 'gm-util'
 const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
 const enterPageTime = new Date().toString()
 
+function getExtension () {
+  let extension = {
+    branch: window.____fe_branch,
+    commit: window.____git_commit,
+    group_id: window.g_group_id || window.g_partner_id || (window.g_user && window.g_user.group_id),
+    name: (window.g_user && (window.g_user.name || window.g_user.username || window.g_user.user_name)) || null,
+    station_id: window.g_user && window.g_user.station_id,
+    cms: window.g_cms_config && window.g_cms_config.key,
+    enterPageTime
+  }
+
+  return extension
+}
+
 // 请求统计需要
 function configTrace (platform, options) {
-  let groupId = (window.g_group_id !== undefined && window.g_group_id) || (window.g_partner_id !== undefined && window.g_partner_id)
-
-  options = Object.assign({}, {
-    extension: {
-      // 应在 上报 的时候才获取
-      // origin: window.location.href,
-      branch: window.____fe_branch,
-      commit: window.____git_commit,
-      group_id: groupId,
-      name: (window.g_user && (window.g_user.name || window.g_user.username)) || null,
-      station_id: window.g_user && window.g_user.station_id,
-      cms: window.g_cms_config && window.g_cms_config.key,
-      enterPageTime
-    }
-  }, options)
+  options = Object.assign({}, options)
 
   feed({
     clientId: window.localStorage && window.localStorage.getItem(CLIENTIDKEY),
@@ -89,7 +89,7 @@ function configTrace (platform, options) {
   function feed (data, url) {
     data.extension = Object.assign({
       origin: window.location.href
-    }, data.extension, options.extension)
+    }, data.extension, getExtension())
     // 异步，不阻塞
     setTimeout(() => {
       if (__DEBUG__) { // eslint-disable-line
