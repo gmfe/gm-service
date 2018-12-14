@@ -3,5 +3,8 @@ module.exports = {
   'extends': [
     'standard',
     'standard-jsx'
-  ]
+  ],
+  'rules': {
+    'camelcase': 0
+  }
 }
