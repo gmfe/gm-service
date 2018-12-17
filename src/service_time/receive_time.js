@@ -123,10 +123,12 @@ function getOneCycleTimes (spanTime, receive_time_limit) {
 function getCycleList (receive_time_limit) {
   const {
     s_span_time,
-    e_span_time
+    e_span_time,
+    receiveEndSpan
   } = receive_time_limit
 
-  const cycleList = _.range(s_span_time, e_span_time + 1)
+  // 不跨天需要 + 1,要考虑跨天的时候不加，否则会多算出一个周期
+  const cycleList = _.range(s_span_time, receiveEndSpan ? e_span_time : e_span_time + 1)
 
   return _.map(cycleList, cycle => {
     return getOneCycleTimes(cycle, receive_time_limit)
