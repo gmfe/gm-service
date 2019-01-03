@@ -85,6 +85,10 @@ function processStartEndValues (receiveTime) {
   }
 }
 
+function getFlag (m) {
+  return Math.floor((m - moment().startOf('day')) / (3600 * 24 * 1000))
+}
+
 function getTime (spanTime, timeStr) {
   return moment().add(spanTime, 'days').set({
     hours: timeStr.split(':')[0],
@@ -135,13 +139,13 @@ function getCycleList (receive_time_limit) {
   })
 }
 
-// 获取开始收货时间的带选项。由于开始时间和结束时间不能一直，估需过滤每个周期最后一个选项。 如果过滤后周期内只存在一个周期，则抛弃
+// 获取开始收货时间的带选项。由于开始时间和结束时间不能一致，估需过滤每个周期最后一个选项。 如果过滤后周期内无数据，则抛弃
 function getStartCycleList (cycleList) {
   let result = _.map(cycleList, list => {
     return list.slice(0, -1)
   })
 
-  return _.filter(result, v => v.length > 1)
+  return _.filter(result, v => v.length > 0)
 }
 
 // 获取开始后货时间的待选项。
@@ -187,6 +191,7 @@ function cycleListToDayList (cycleList) {
 export {
   processReceiveTimeLimit,
   processStartEndValues,
+  getFlag,
   getCycleList,
   getStartCycleList,
   getEndCycleList,
