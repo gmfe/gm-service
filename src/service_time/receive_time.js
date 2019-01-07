@@ -4,7 +4,7 @@ import moment from 'moment'
 // 注意：为了方便，此库的日期都用 moment 格式表示，非 Date
 // 选开始才选结束
 //
-// 收货开始时间不能和结算时间一样
+// 收货开始时间不能和结束时间一样
 // 如果某周期只有一个点，则此周期不能选
 
 // 数据结构
@@ -28,7 +28,7 @@ import moment from 'moment'
 // }
 
 /*
-* 收货时间分可以分为于是和非预算
+* 收货时间分可以分为于是和非预售
 * 目前 receiveTimeSpan 为 null，即代表非预售（预算这个一定有值）
 * 非预售可以通过 e_span_time 和 s_span_time 来判断是否跨天
 * */
@@ -132,20 +132,25 @@ function getCycleList (receive_time_limit) {
   } = receive_time_limit
 
   // 不跨天需要 + 1,要考虑跨天的时候不加，否则会多算出一个周期
-  const cycleList = _.range(s_span_time, receiveEndSpan ? e_span_time : e_span_time + 1)
+  const spanList = _.range(s_span_time, receiveEndSpan ? e_span_time : e_span_time + 1)
 
-  return _.map(cycleList, cycle => {
+  let cycleList = _.map(spanList, cycle => {
     return getOneCycleTimes(cycle, receive_time_limit)
   })
+
+  // 开始时间不能和结束时间一样，估需过滤掉只有一个数据的周期
+  cycleList = _.filter(cycleList, cycle => cycle.length > 1)
+
+  return cycleList
 }
 
-// 获取开始收货时间的带选项。由于开始时间和结束时间不能一致，估需过滤每个周期最后一个选项。 如果过滤后周期内无数据，则抛弃
+// 获取开始收货时间的带选项
 function getStartCycleList (cycleList) {
   let result = _.map(cycleList, list => {
     return list.slice(0, -1)
   })
 
-  return _.filter(result, v => v.length > 0)
+  return result
 }
 
 // 获取开始后货时间的待选项。
