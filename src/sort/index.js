@@ -26,8 +26,16 @@ const skusSortByFrequency = (list) => {
   return _.sortBy(list, v => -v.frequency)
 }
 
+// 对 sort_id 排序，如果可以转数字按数字排，数字优先
+const sortBySortId = (list) => {
+  const temp = _.groupBy(list, v => !!parseFloat(v))
+
+  return _.sortBy(temp['true'], v => parseFloat(v)).concat(_.sortBy(temp['false']))
+}
+
 export {
   sortByRank,
   sortByMarketingThenRank,
-  skusSortByFrequency
+  skusSortByFrequency,
+  sortBySortId
 }
