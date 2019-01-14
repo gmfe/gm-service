@@ -47,6 +47,7 @@ function processReceiveTimeLimit (receive_time_limit) {
 
 // 处理 默认收货时间时间。receive_time 可能不存在。默认收货时间可能不合法，和当前时间比较
 function processStartEndValues (receiveTime) {
+  console.warn('废弃，请用 processStartEndValuesWithCycleList')
   if (!receiveTime) {
     return {
       startValues: [],
@@ -78,6 +79,57 @@ function processStartEndValues (receiveTime) {
     receiveTime.defaultSpanEndFlag,
     receiveTime.defaultEnd
   ]
+
+  return {
+    startValues,
+    endValues
+  }
+}
+
+function processStartEndValuesWithCycleList (receiveTime, cycleList) {
+  if (!receiveTime) {
+    return {
+      startValues: [],
+      endValues: []
+    }
+  }
+
+  const {
+    defaultSpanStartFlag,
+    defaultStart,
+    defaultSpanEndFlag,
+    defaultEnd
+  } = receiveTime
+
+  const start = moment().add(defaultSpanStartFlag, 'days').set({
+    hours: defaultStart.split(':')[0],
+    minute: defaultStart.split(':')[1]
+  }).startOf('minute')
+
+  const end = moment().add(defaultSpanEndFlag, 'days').set({
+    hours: defaultEnd.split(':')[0],
+    minute: defaultEnd.split(':')[1]
+  }).startOf('minute')
+
+  // 默认
+  let startValues = [
+    defaultSpanStartFlag,
+    defaultStart
+  ]
+  let endValues = [
+    defaultSpanEndFlag,
+    defaultEnd
+  ]
+
+  const list = _.flatten(cycleList)
+  const hasStart = _.find(list, v => +v === +start)
+  const hasEnd = _.find(list, v => +v === +end)
+  if (!hasStart) {
+    startValues = []
+    endValues = []
+  } else if (!hasEnd) {
+    endValues = []
+  }
 
   return {
     startValues,
@@ -196,6 +248,7 @@ function cycleListToDayList (cycleList) {
 export {
   processReceiveTimeLimit,
   processStartEndValues,
+  processStartEndValuesWithCycleList,
   getFlag,
   getCycleList,
   getStartCycleList,
