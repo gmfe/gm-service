@@ -210,7 +210,7 @@ function getStartCycleList (cycleList) {
 function getEndCycleList (startDate, cycleList) {
   let cycleIndex = 0
   _.each(cycleList, (list, i) => {
-    if (startDate > list[0]) {
+    if (startDate >= list[0]) {
       cycleIndex = i
     }
   })
