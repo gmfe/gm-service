@@ -52,7 +52,7 @@ class DBActionStorage {
       storage.setChanged({})
       entries = entries.concat(changed)
     })
-    console.log('同步 entries', entries)
+    // console.log('同步 entries', entries)
     // TODO: 同步失败 如何处理 changed
     await con.syncEntries(entries)
   }
