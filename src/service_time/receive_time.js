@@ -178,13 +178,18 @@ function getOneCycleTimes (spanTime, receive_time_limit) {
 // 核心。把周期时间输出一个二维数组，每个元素是当前周期的时间点
 function getCycleList (receive_time_limit) {
   const {
+    r_end,
     s_span_time,
     e_span_time,
     receiveEndSpan
   } = receive_time_limit
 
-  // 不跨天需要 + 1,要考虑跨天的时候不加，否则会多算出一个周期
-  const spanList = _.range(s_span_time, receiveEndSpan ? e_span_time : e_span_time + 1)
+  let end = e_span_time + 1
+  // 如果跨天，抛掉最后一个周期， 00:00 除外
+  if (receiveEndSpan && r_end !== '00:00') {
+    end = e_span_time
+  }
+  const spanList = _.range(s_span_time, end)
 
   let cycleList = _.map(spanList, cycle => {
     return getOneCycleTimes(cycle, receive_time_limit)
