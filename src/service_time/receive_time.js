@@ -233,7 +233,7 @@ function cycleListToDayList (cycleList) {
     if (d > dayEnd) {
       result.push(temp)
 
-      dayEnd = null
+      dayEnd = moment(d).endOf('day')
       temp = [d]
     } else {
       temp.push(d)
