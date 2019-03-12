@@ -1,35 +1,74 @@
 import { RequestInterceptor } from 'gm-util'
+import moment from 'moment'
 
-// 要求 reqeust config headers 中含 X-Guanmai-Request-Id X-Guanmai-Client
+// 要求 reqeust config headers 中含 X-Guanmai-Client X-Guanmai-Request-Id
 // 要求 __DEBUG__ 存在
 
+// dev devhost
+const isTest = window.location.host.indexOf('dev.guanmai.cn') !== -1 || window.location.host.indexOf('devhost.guanmai.cn') !== -1
+
 const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
-const enterPageTime = new Date().toString()
+const enterTime = moment().format('YYYY-MM-DD HH:mm:ss')
+
+const requestUrl = '//trace.guanmai.cn/api/logs/request/'
+const requestEnvUrl = '//trace.guanmai.cn/api/logs/environment/'
+let _platform = ''
 
 function getExtension () {
-  let extension = {
+  return {
     branch: window.____fe_branch,
     commit: window.____git_commit,
     group_id: window.g_group_id || window.g_partner_id || (window.g_user && window.g_user.group_id),
-    name: (window.g_user && (window.g_user.name || window.g_user.username || window.g_user.user_name)) || null,
     station_id: window.g_user && window.g_user.station_id,
     cms: window.g_cms_config && window.g_cms_config.key,
-    enterPageTime
+    name: (window.g_user && (window.g_user.name || window.g_user.username || window.g_user.user_name)) || null,
+    enterTime
   }
-
-  return extension
 }
 
-// 请求统计需要
-function configTrace (platform, options) {
-  options = Object.assign({}, options)
+function feedEnv (data) {
+  data.extension = {
+    ...data.extension,
+    ...getExtension(),
+    origin: window.location.href
+  }
 
-  feed({
-    clientId: window.localStorage && window.localStorage.getItem(CLIENTIDKEY),
-    cookie: window.document.cookie,
-    userAgent: window.navigator.userAgent
-  }, `//trace.guanmai.cn/api/logs/environment/${platform}`)
+  // 异步，不阻塞
+  setTimeout(() => {
+    window.fetch(requestEnvUrl + _platform, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'
+    })
+  }, 100)
+}
 
+function feed (data) {
+  data = {
+    ...data,
+    extension: {
+      ...data.extension,
+      ...getExtension(),
+      origin: window.location.href
+    }
+  }
+
+  setTimeout(() => {
+    window.fetch(requestUrl + _platform, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'
+    })
+  }, 100)
+}
+
+function doRequestInterceptor () {
   const timeMap = {}
   RequestInterceptor.add({
     request (config) {
@@ -57,7 +96,7 @@ function configTrace (platform, options) {
           client: config.options.headers['X-Guanmai-Client'],
           requestId: uuid
         }
-      }, `//trace.guanmai.cn/api/logs/request/${platform}`)
+      })
 
       return json
     },
@@ -79,33 +118,27 @@ function configTrace (platform, options) {
           client: config.options.headers['X-Guanmai-Client'],
           requestId: uuid
         }
-      }, `//trace.guanmai.cn/api/logs/request/${platform}`)
+      })
     }
   })
+}
 
-  // dev devhost
-  const noTest = window.location.host.indexOf('dev.guanmai.cn') === -1 && window.location.host.indexOf('devhost.guanmai.cn') === -1
-
-  function feed (data, url) {
-    data.extension = Object.assign({
-      origin: window.location.href
-    }, data.extension, getExtension())
-    // 异步，不阻塞
-    setTimeout(() => {
-      if (__DEBUG__) { // eslint-disable-line
-        // nothing
-      } else if (noTest) {
-        window.fetch(url, {
-          method: 'post',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          mode: 'cors'
-        })
-      }
-    }, 10)
+// 请求统计需要
+function configTrace (platform) {
+  if (__DEBUG__ || isTest) {// eslint-disable-line
+    return
   }
+
+  _platform = platform
+
+  // 记录一次环境
+  feedEnv({
+    clientId: window.localStorage && window.localStorage.getItem(CLIENTIDKEY),
+    cookie: window.document.cookie,
+    userAgent: window.navigator.userAgent
+  })
+
+  doRequestInterceptor()
 }
 
 export default configTrace
