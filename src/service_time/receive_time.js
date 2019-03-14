@@ -185,10 +185,7 @@ function getCycleList (receive_time_limit) {
   } = receive_time_limit
 
   let end = e_span_time + 1
-  // 如果跨天，抛掉最后一个周期， 00:00 除外
-  if (receiveEndSpan && r_end !== '00:00') {
-    end = e_span_time
-  }
+
   const spanList = _.range(s_span_time, end)
 
   let cycleList = _.map(spanList, cycle => {
