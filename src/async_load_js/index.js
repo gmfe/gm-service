@@ -29,6 +29,10 @@ const config = {
   'gm-pdfmake-font-regular-1': {
     depUrl: '//static.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/splits/regular_1.js',
     isReady: false
+  },
+  'react-beautiful-dnd': {
+    depUrl: '//static.guanmai.cn/build/libs/react-beautiful-dnd/10.1.1/dist/react-beautiful-dnd.min.js',
+    isReady: false
   }
 }
 
