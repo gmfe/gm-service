@@ -178,10 +178,9 @@ function getOneCycleTimes (spanTime, receive_time_limit) {
 // 核心。把周期时间输出一个二维数组，每个元素是当前周期的时间点
 function getCycleList (receive_time_limit) {
   const {
-    r_end,
+    r_end, receiveEndSpan, // eslint-disable-line
     s_span_time,
-    e_span_time,
-    receiveEndSpan
+    e_span_time
   } = receive_time_limit
 
   let end = e_span_time + 1
