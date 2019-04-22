@@ -141,15 +141,16 @@ function getFlag (m) {
   return Math.floor((m - moment().startOf('day')) / (3600 * 24 * 1000))
 }
 
-function getTime (spanTime, timeStr) {
-  return moment().add(spanTime, 'days').set({
+function getTime (spanTime, timeStr, orderTime = null) {
+  let time = orderTime ? moment(orderTime) : moment()
+  return time.add(spanTime, 'days').set({
     hours: timeStr.split(':')[0],
     minute: timeStr.split(':')[1]
   }).startOf('minute')
 }
 
 // 获取一个周期的时间
-function getOneCycleTimes (spanTime, receive_time_limit) {
+function getOneCycleTimes (spanTime, receive_time_limit, orderTime = null) {
   const {
     receiveEndSpan,
     r_start,
@@ -157,9 +158,9 @@ function getOneCycleTimes (spanTime, receive_time_limit) {
     receiveTimeSpan
   } = receive_time_limit
 
-  const now = moment()
-  let flag = getTime(spanTime, r_start)
-  const end = getTime(spanTime + receiveEndSpan, r_end)
+  const now = orderTime ? moment(orderTime) : moment()
+  let flag = getTime(spanTime, r_start, orderTime)
+  const end = getTime(spanTime + receiveEndSpan, r_end, orderTime)
 
   const result = []
 
@@ -176,7 +177,7 @@ function getOneCycleTimes (spanTime, receive_time_limit) {
 }
 
 // 核心。把周期时间输出一个二维数组，每个元素是当前周期的时间点
-function getCycleList (receive_time_limit) {
+function getCycleList (receive_time_limit, orderTime = null) {
   const {
     r_end, receiveEndSpan, // eslint-disable-line
     s_span_time,
@@ -188,7 +189,7 @@ function getCycleList (receive_time_limit) {
   const spanList = _.range(s_span_time, end)
 
   let cycleList = _.map(spanList, cycle => {
-    return getOneCycleTimes(cycle, receive_time_limit)
+    return getOneCycleTimes(cycle, receive_time_limit, orderTime)
   })
 
   // 开始时间不能和结束时间一样，估需过滤掉只有一个数据的周期
