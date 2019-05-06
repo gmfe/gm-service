@@ -16,8 +16,8 @@ const withViewStateStorage = (options) => (targetClass) => {
     }
     componentDidUpdate (...args) {
       super.componentDidUpdate && super.componentDidUpdate(...args)
-      let newValue = getBySelector(this.state, this.__selector)
-      this.__storage.set(this.__key, newValue)
+      let newValue = getBySelector(this.state, selector)
+      this.__storage.set(name, newValue)
     }
     componentWillUnmount (...args) {
       super.componentWillUnmount && super.componentWillUnmount(...args)
