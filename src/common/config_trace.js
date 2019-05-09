@@ -8,7 +8,8 @@ import moment from 'moment'
 const isTest = window.location.host.indexOf('dev.guanmai.cn') !== -1 || window.location.host.indexOf('devhost.guanmai.cn') !== -1
 
 const CLIENTIDKEY = '_GM_SERVICE_CLIENT_ID'
-const enterTime = moment().format('YYYY-MM-DD HH:mm:ss')
+const getTimeStamp = (time) => moment(time).format('YYYY-MM-DD HH:mm:ss.SSS')
+const enterTime = getTimeStamp()
 
 const requestUrl = '//trace.guanmai.cn/api/logs/request/'
 const requestEnvUrl = '//trace.guanmai.cn/api/logs/environment/'
@@ -68,19 +69,32 @@ function feed (data) {
   }, 100)
 }
 
-function doRequestInterceptor () {
+function doRequestInterceptor (requestLogUrls) {
   const timeMap = {}
   RequestInterceptor.add({
     request (config) {
       const uuid = config.options.headers['X-Guanmai-Request-Id']
       timeMap[uuid] = Date.now()
-
+      // 配置了请求也上报
+      if (requestLogUrls.some((url) => config.url.indexOf(url) !== -1)) {
+        feed({
+          requestTime: getTimeStamp(timeMap[uuid]),
+          url: config.url,
+          req: {
+            data: config.data
+          },
+          extension: {
+            client: config.options.headers['X-Guanmai-Client'],
+            requestId: uuid
+          }
+        })
+      }
       return config
     },
     response (json, config) {
       const isSuccess = config.sucCode.indexOf(json.code) > -1
       const uuid = config.options.headers['X-Guanmai-Request-Id']
-
+      let time = Date.now()
       feed({
         url: config.url,
         req: {
@@ -91,7 +105,8 @@ function doRequestInterceptor () {
           msg: json.msg
         },
         isSuccess,
-        time: Date.now() - timeMap[uuid],
+        responseTime: getTimeStamp(time),
+        duration: time - timeMap[uuid],
         extension: {
           client: config.options.headers['X-Guanmai-Client'],
           requestId: uuid
@@ -124,7 +139,7 @@ function doRequestInterceptor () {
 }
 
 // 请求统计需要
-function configTrace (platform) {
+function configTrace (platform, requestLogUrls = []) {
   if (__DEBUG__ || isTest) {// eslint-disable-line
     return
   }
@@ -138,7 +153,7 @@ function configTrace (platform) {
     userAgent: window.navigator.userAgent
   })
 
-  doRequestInterceptor()
+  doRequestInterceptor(requestLogUrls)
 }
 
 export default configTrace
