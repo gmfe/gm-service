@@ -86,7 +86,8 @@ function processStartEndValues (receiveTime) {
   }
 }
 
-function processStartEndValuesWithCycleList (receiveTime, cycleList) {
+function processStartEndValuesWithCycleList (receiveTime, cycleList, orderTime = null) {
+  const now = orderTime ? moment(orderTime) : moment()
   if (!receiveTime) {
     return {
       startValues: [],
@@ -101,12 +102,12 @@ function processStartEndValuesWithCycleList (receiveTime, cycleList) {
     defaultEnd
   } = receiveTime
 
-  const start = moment().add(defaultSpanStartFlag, 'days').set({
+  const start = moment(now).add(defaultSpanStartFlag, 'days').set({
     hours: defaultStart.split(':')[0],
     minute: defaultStart.split(':')[1]
   }).startOf('minute')
 
-  const end = moment().add(defaultSpanEndFlag, 'days').set({
+  const end = moment(now).add(defaultSpanEndFlag, 'days').set({
     hours: defaultEnd.split(':')[0],
     minute: defaultEnd.split(':')[1]
   }).startOf('minute')
@@ -137,8 +138,9 @@ function processStartEndValuesWithCycleList (receiveTime, cycleList) {
   }
 }
 
-function getFlag (m) {
-  return Math.floor((m - moment().startOf('day')) / (3600 * 24 * 1000))
+function getFlag (m, orderTime = null) {
+  let current = orderTime ? moment(orderTime) : moment()
+  return Math.floor((m - current.startOf('day')) / (3600 * 24 * 1000))
 }
 
 function getTime (spanTime, timeStr, orderTime = null) {
