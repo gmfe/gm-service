@@ -31,7 +31,8 @@ function feedEnv (data) {
   data.extension = {
     ...data.extension,
     ...getExtension(),
-    origin: window.location.href
+    origin: window.location.href,
+    devicePixelRatio: window.devicePixelRatio
   }
 
   // 异步，不阻塞
