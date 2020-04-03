@@ -1,5 +1,6 @@
 import { RequestInterceptor } from 'gm-util'
 import moment from 'moment'
+import { isDisabledFunc } from '../coopyc'
 
 // 要求 reqeust config headers 中含 X-Guanmai-Client X-Guanmai-Request-Id
 // 要求 __DEBUG__ 存在
@@ -141,7 +142,7 @@ function doRequestInterceptor (requestLogUrls) {
 
 // 请求统计需要
 function configTrace (platform, requestLogUrls = []) {
-  if (__DEBUG__ || isTest) {// eslint-disable-line
+  if (__DEBUG__ || isTest || isDisabledFunc('log')) {// eslint-disable-line
     return
   }
 
