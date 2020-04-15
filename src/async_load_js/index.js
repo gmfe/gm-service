@@ -1,37 +1,40 @@
 import { loadScript } from 'gm-util'
+import { isCoopyc } from '../coopyc'
+
+const host = isCoopyc() ? 'txopen.gxyj.com' : 'js.guanmai.cn'
 
 const config = {
   'xlsx': {
-    depUrl: '//js.guanmai.cn/build/libs/node_modules/xlsx/dist/xlsx.full.min.js',
+    depUrl: `//${host}/build/libs/node_modules/xlsx/dist/xlsx.full.min.js`,
     isReady: false
   },
   'echarts': {
-    depUrl: '//js.guanmai.cn/build/libs/echarts/4.0.4/dist/echarts.min.js',
+    depUrl: `//${host}/build/libs/echarts/4.0.4/dist/echarts.min.js`,
     isReady: false
   },
   'gm-pdfmake': {
-    depUrl: '//js.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/pdfmake.min.js',
+    depUrl: `//${host}/build/libs/gm-pdfmake/0.3.20/build/pdfmake.min.js`,
     isReady: false
   },
   'gm-pdfmake-font-bold-0': {
-    depUrl: '//static.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/splits/bold_0.js',
+    depUrl: `//${host}/build/libs/gm-pdfmake/0.3.20/build/splits/bold_0.js`,
     isReady: false
   },
   'gm-pdfmake-font-bold-1': {
-    depUrl: '//static.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/splits/bold_1.js',
+    depUrl: `//${host}/build/libs/gm-pdfmake/0.3.20/build/splits/bold_1.js`,
     isReady: false
   },
 
   'gm-pdfmake-font-regular-0': {
-    depUrl: '//static.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/splits/regular_0.js',
+    depUrl: `//${host}/build/libs/gm-pdfmake/0.3.20/build/splits/regular_0.js`,
     isReady: false
   },
   'gm-pdfmake-font-regular-1': {
-    depUrl: '//static.guanmai.cn/build/libs/gm-pdfmake/0.3.20/build/splits/regular_1.js',
+    depUrl: `//${host}/build/libs/gm-pdfmake/0.3.20/build/splits/regular_1.js`,
     isReady: false
   },
   'react-beautiful-dnd': {
-    depUrl: '//static.guanmai.cn/build/libs/react-beautiful-dnd/10.1.1/dist/react-beautiful-dnd.min.js',
+    depUrl: `//${host}/build/libs/react-beautiful-dnd/10.1.1/dist/react-beautiful-dnd.min.js`,
     isReady: false
   }
 }
