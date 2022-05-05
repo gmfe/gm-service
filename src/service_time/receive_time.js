@@ -32,7 +32,7 @@ import moment from 'moment'
 * 目前 receiveTimeSpan 为 null，即代表非预售（预算这个一定有值）
 * 非预售可以通过 e_span_time 和 s_span_time 来判断是否跨天
 * */
-function processReceiveTimeLimit (receive_time_limit) {
+function processReceiveTimeLimit(receive_time_limit) {
   const {
     receiveEndSpan,
     s_span_time,
@@ -46,7 +46,7 @@ function processReceiveTimeLimit (receive_time_limit) {
 }
 
 // 处理 默认收货时间时间。receive_time 可能不存在。默认收货时间可能不合法，和当前时间比较
-function processStartEndValues (receiveTime) {
+function processStartEndValues(receiveTime) {
   console.warn('废弃，请用 processStartEndValuesWithCycleList')
   if (!receiveTime) {
     return {
@@ -86,7 +86,7 @@ function processStartEndValues (receiveTime) {
   }
 }
 
-function processStartEndValuesWithCycleList (receiveTime, cycleList, orderTime = null) {
+function processStartEndValuesWithCycleList(receiveTime, cycleList, orderTime = null) {
   const now = orderTime ? moment(orderTime) : moment()
   if (!receiveTime) {
     return {
@@ -138,12 +138,12 @@ function processStartEndValuesWithCycleList (receiveTime, cycleList, orderTime =
   }
 }
 
-function getFlag (m, orderTime = null) {
+function getFlag(m, orderTime = null) {
   let current = orderTime ? moment(orderTime) : moment()
   return Math.floor((m - current.startOf('day')) / (3600 * 24 * 1000))
 }
 
-function getTime (spanTime, timeStr, orderTime = null) {
+function getTime(spanTime, timeStr, orderTime = null) {
   let time = orderTime ? moment(orderTime) : moment()
   return time.add(spanTime, 'days').set({
     hours: timeStr.split(':')[0],
@@ -152,7 +152,7 @@ function getTime (spanTime, timeStr, orderTime = null) {
 }
 
 // 获取一个周期的时间
-function getOneCycleTimes (spanTime, receive_time_limit, orderTime = null) {
+function getOneCycleTimes(spanTime, receive_time_limit, orderTime = null) {
   const {
     receiveEndSpan,
     r_start,
@@ -162,6 +162,7 @@ function getOneCycleTimes (spanTime, receive_time_limit, orderTime = null) {
 
   const now = orderTime ? moment(orderTime) : moment()
   let flag = getTime(spanTime, r_start, orderTime)
+  if (spanTime === 1) spanTime = 0
   const end = getTime(spanTime + receiveEndSpan, r_end, orderTime)
 
   const result = []
@@ -179,7 +180,7 @@ function getOneCycleTimes (spanTime, receive_time_limit, orderTime = null) {
 }
 
 // 核心。把周期时间输出一个二维数组，每个元素是当前周期的时间点
-function getCycleList (receive_time_limit, orderTime = null) {
+function getCycleList(receive_time_limit, orderTime = null) {
   const {
     r_end, receiveEndSpan, // eslint-disable-line
     s_span_time,
@@ -201,7 +202,7 @@ function getCycleList (receive_time_limit, orderTime = null) {
 }
 
 // 获取开始收货时间的带选项
-function getStartCycleList (cycleList) {
+function getStartCycleList(cycleList) {
   let result = _.map(cycleList, list => {
     return list.slice(0, -1)
   })
@@ -211,7 +212,7 @@ function getStartCycleList (cycleList) {
 
 // 获取开始后货时间的待选项。
 // 当开始选择后，自然有开始时间 startDate，根据此时间去查属于哪个周期，自然得到待选项
-function getEndCycleList (startDate, cycleList) {
+function getEndCycleList(startDate, cycleList) {
   let cycleIndex = 0
   _.each(cycleList, (list, i) => {
     if (startDate >= list[0]) {
@@ -223,7 +224,7 @@ function getEndCycleList (startDate, cycleList) {
 }
 
 // 周期列表格式对用户看到的待选项UI并不友好，估需要转换下，按日期格式分
-function cycleListToDayList (cycleList) {
+function cycleListToDayList(cycleList) {
   const result = []
   // 打平
   const list = _.flatten(cycleList)
