@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "precommit": "eslint ./src/"
+    "precommit": "eslint ./src/",
+    "bumpp": " bumpp"
   },
   "repository": {
     "type": "git",
@@ -39,11 +40,12 @@
     "react-router": "^4.3.1"
   },
   "peerDependencies": {
-    "lodash": "^4.17.4",
+    "big.js": "^5.0.3",
     "gm-util": "^5.4.27",
-    "big.js": "^5.0.3"
+    "lodash": "^4.17.4"
   },
   "dependencies": {
+    "bumpp": "9.2",
     "semver": "^6.0.0"
   }
 }
